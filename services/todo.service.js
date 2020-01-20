@@ -1,12 +1,11 @@
-const fs = require('promise-fs');
+const { todoFsResource } = require('../resources/todo.resources/todo.fs.resource');
+
+const todoResource = todoFsResource;
 
 function getAllTodos() {
-  return fs
-    .readFile('./data/todos.json', 'utf8')
-    .then((data) => JSON.parse(data))
-    .then((todos) => {
-      return todos;
-    });
+  return todoResource.getAllTodos().then((todos) => {
+    return todos;
+  });
 }
 
 module.exports = {

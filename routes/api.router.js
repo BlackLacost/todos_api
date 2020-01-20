@@ -4,6 +4,6 @@ const { todoController } = require('../controllers/todo.controller');
 
 const router = Router();
 
-router.get('/todos', todoController);
+router.get('/todos', todoController.getAllTodos);
 
 module.exports = router;

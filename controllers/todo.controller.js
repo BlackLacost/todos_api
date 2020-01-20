@@ -1,6 +1,6 @@
 const fs = require('promise-fs');
 
-function todoController(req, res, next) {
+function getAllTodos(req, res, next) {
   fs.readFile('./data/todos.json', 'utf8')
     .then((data) => JSON.parse(data))
     .then((todos) => res.json({ todos }))
@@ -8,5 +8,7 @@ function todoController(req, res, next) {
 }
 
 module.exports = {
-  todoController,
+  todoController: {
+    getAllTodos,
+  },
 };

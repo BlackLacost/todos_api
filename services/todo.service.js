@@ -2,6 +2,10 @@ const { todoFsResource } = require('../resources/todo.resources/todo.fs.resource
 
 const todoResource = todoFsResource;
 
+function addTodo(todo) {
+  return todoResource.addTodo(todo).then((addedTodo) => addedTodo);
+}
+
 function getAllTodos(userId, completed) {
   return todoResource.getAllTodos(userId).then((userTodos) => {
     if (completed === true || completed === false) {
@@ -15,6 +19,7 @@ function getAllTodos(userId, completed) {
 
 module.exports = {
   todoService: {
+    addTodo,
     getAllTodos,
   },
 };

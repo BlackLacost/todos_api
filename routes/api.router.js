@@ -1,9 +1,10 @@
 const { Router } = require('express');
-
-const { todoController } = require('../controllers/todo.controller');
+const { todoRouter } = require('./todos');
 
 const router = Router();
 
-router.get('/todos', todoController.getAllTodos);
+router.use('/todos', todoRouter);
 
-module.exports = router;
+module.exports = {
+  apiRouter: router,
+};

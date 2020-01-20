@@ -4,8 +4,8 @@
   "description": "Demo Todos API",
   "main": "server.js",
   "scripts": {
-    "start": "node server",
-    "start:dev": "set DEBUG=app*&&nodemon server.js",
+    "start": "set NODE_ENV=production && node server",
+    "start:dev": "set DEBUG=app* && nodemon server.js",
     "test": "jest"
   },
   "keywords": [
@@ -18,7 +18,8 @@
   "license": "ISC",
   "dependencies": {
     "debug": "^4.1.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "promise-fs": "^2.1.1"
   },
   "devDependencies": {
     "acorn": "^7.0.0",

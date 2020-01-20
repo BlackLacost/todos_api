@@ -1,8 +1,8 @@
-const fs = require('promise-fs');
+const { todoService } = require('../services/todo.service');
 
 function getAllTodos(req, res, next) {
-  fs.readFile('./data/todos.json', 'utf8')
-    .then((data) => JSON.parse(data))
+  return todoService
+    .getAllTodos()
     .then((todos) => res.json({ todos }))
     .catch(next);
 }

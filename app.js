@@ -1,17 +1,13 @@
 const express = require('express');
 const path = require('path');
-const fs = require('promise-fs');
+
+const apiRouter = require('./routes/api.router');
 
 const app = express();
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/api/todos/', (req, res, next) => {
-  fs.readFile('./data/todos.json', 'utf8')
-    .then((data) => JSON.parse(data))
-    .then((todos) => res.json({ todos }))
-    .catch(next);
-});
+app.use('/api', apiRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {

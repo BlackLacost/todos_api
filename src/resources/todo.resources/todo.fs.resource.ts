@@ -1,9 +1,10 @@
 import * as fs from 'promise-fs';
 import * as uuidv1 from 'uuid/v1';
 
+import { config } from '../../config';
 import { ITodo } from '../../interfaces/itodo';
 
-const todosData = './data/todos.json';
+const todosData = config.FS_DATA_TODOS_PATH;
 
 async function getTodosFromData() {
   const data = await fs.readFile(todosData, 'utf8');

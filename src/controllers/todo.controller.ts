@@ -12,6 +12,18 @@ async function addTodo(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function changeTodo(req: Request, res: Response, next: NextFunction) {
+  const { title, completed } = req.body;
+  const { id } = req.params;
+  const userId: string = req.query.user_id && req.query.user_id;
+  try {
+    const changedTodo = await todoService.changeTodo(userId, id, { title, completed });
+    res.json({ todo: changedTodo });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function getAllTodos(req: Request, res: Response, next: NextFunction) {
   const completed = req.query.completed === undefined ? null : req.query.completed === 'true';
   const userId: string = req.query.user_id && req.query.user_id;
@@ -25,5 +37,6 @@ async function getAllTodos(req: Request, res: Response, next: NextFunction) {
 
 export const todoController = {
   addTodo,
+  changeTodo,
   getAllTodos,
 };

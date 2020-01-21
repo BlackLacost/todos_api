@@ -3,17 +3,12 @@ import * as uuidv1 from 'uuid/v1';
 
 import { config } from '../../config';
 import { ITodo } from '../../interfaces/itodo';
+import { getData } from '../fs.utils';
 
 const todosData = config.FS_DATA_TODOS_PATH;
 
-async function getTodosFromData() {
-  const data = await fs.readFile(todosData, 'utf8');
-  const todos = JSON.parse(data) as ITodo[];
-  return todos;
-}
-
 async function addTodo(todo: ITodo): Promise<ITodo> {
-  const todos = await getTodosFromData();
+  const todos = (await getData(todosData)) as ITodo[];
   todo.id = uuidv1();
   todos.push(todo);
   await fs.writeFile(todosData, JSON.stringify(todos));
@@ -21,7 +16,7 @@ async function addTodo(todo: ITodo): Promise<ITodo> {
 }
 
 async function changeTodo(userId, id, query: object) {
-  const todos = await getTodosFromData();
+  const todos = (await getData(todosData)) as ITodo[];
   const todo = todos.find((todoItem) => todoItem.userId === userId && todoItem.id === id);
   Object.keys(query).forEach((field) => {
     todo[field] = query[field];
@@ -31,7 +26,7 @@ async function changeTodo(userId, id, query: object) {
 }
 
 async function deleteTodo(userId, id): Promise<ITodo> {
-  const todos = await getTodosFromData();
+  const todos = (await getData(todosData)) as ITodo[];
   const todo = todos.find((todoItem) => todoItem.userId === userId && todoItem.id === id);
   const filteredTodos = todos.filter(
     (todoItem) => todoItem.userId !== userId || todoItem.id !== id,
@@ -41,7 +36,7 @@ async function deleteTodo(userId, id): Promise<ITodo> {
 }
 
 async function getAllTodos(userId: string): Promise<ITodo[]> {
-  const todos = await getTodosFromData();
+  const todos = (await getData(todosData)) as ITodo[];
   const userTodos = todos.filter((todo) => todo.userId === userId);
   return userTodos;
 }

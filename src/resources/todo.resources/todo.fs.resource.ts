@@ -21,7 +21,7 @@ async function addTodo(todo: ITodo): Promise<ITodo> {
 
 async function changeTodo(userId, id, query: object) {
   const todos = await getTodosFromData();
-  const todo = todos.find((todo) => todo.userId === userId && todo.id === id);
+  const todo = todos.find((todoItem) => todoItem.userId === userId && todoItem.id === id);
   Object.keys(query).forEach((field) => {
     todo[field] = query[field];
   });

@@ -1,6 +1,7 @@
-import { ITodo } from '../interfaces/itodo';
 import * as LIVR from 'livr';
 import * as extraRules from 'livr-extra-rules';
+
+import { ITodo } from '../interfaces/itodo';
 import { todoFsResource } from '../resources/todo.resources/todo.fs.resource';
 
 const todoResource = todoFsResource;
@@ -13,16 +14,15 @@ async function addTodo(todo: ITodo): Promise<ITodo> {
 
 async function changeTodo(userId: string, id: string, query): Promise<ITodo> {
   const validator = new LIVR.Validator({
+    completed: ['boolean', 'required'],
     title: ['required', 'string'],
-    completed: ['required', 'boolean'],
   });
   const validQuery = validator.validate(query);
   if (validQuery) {
     const changedTodo = await todoResource.changeTodo(userId, id, validQuery);
     return changedTodo;
-  } else {
-    throw new Error(JSON.stringify(validator.getErrors()));
   }
+  throw validator.getErrors();
 }
 
 async function getAllTodos(userId: string, completed: null | boolean): Promise<ITodo[]> {

@@ -1,13 +1,15 @@
-const debug = require('debug')('app:server');
-const http = require('http');
+import * as Debug from 'debug';
+import * as http from 'http';
 
-const config = require('./config');
-const app = require('./app');
+import { app } from './app';
+import { config } from './config';
+
+const debug = Debug('app:server');
 
 const port = config.PORT;
 const server = http.createServer(app);
 
-function onError(error) {
+function onError(error: any) {
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -25,3 +27,5 @@ function onListening() {
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+export { server };

@@ -1,18 +1,18 @@
-const express = require('express');
-const path = require('path');
+import * as express from 'express';
+import * as path from 'path';
 
-const { apiRouter } = require('./routes/api.router');
+import { apiRouter } from './routes/api.router';
 
 const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(express.static(path.join(__dirname, '..', 'public')));
 
 app.use('/api', apiRouter);
 
-// eslint-disable-next-line no-unused-vars
-app.use((err, req, res, next) => {
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
   const error = req.app.get('env') === 'development' ? err : {};
   res.status(err.status || 500);
   const jsonRes =
@@ -22,4 +22,4 @@ app.use((err, req, res, next) => {
   res.json(jsonRes);
 });
 
-module.exports = app;
+export { app };

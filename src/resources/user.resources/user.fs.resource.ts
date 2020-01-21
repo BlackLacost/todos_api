@@ -9,6 +9,13 @@ async function getAllUsers(): Promise<IUser[]> {
   return users;
 }
 
+async function getUserById(id: string): Promise<IUser> {
+  const users = (await getData(usersData)) as IUser[];
+  const user = users.find((u) => u.id === id);
+  return user;
+}
+
 export const userFsResource = {
   getAllUsers,
+  getUserById,
 };

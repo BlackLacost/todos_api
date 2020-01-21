@@ -13,7 +13,20 @@ async function getUserById(id: string): Promise<IUser> {
   return user;
 }
 
+async function getUserInfo(id: string) {
+  const user = await userResourse.getUserById(id);
+  const userInfo = {
+    age: user.age,
+    company: user.company,
+    email: user.email,
+    id: user.id,
+    name: `${user.name.first} ${user.name.last}`,
+  };
+  return userInfo;
+}
+
 export const userService = {
   getAllUsers,
   getUserById,
+  getUserInfo,
 };

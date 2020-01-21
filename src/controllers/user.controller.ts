@@ -20,7 +20,17 @@ async function getUserById(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function getUserInfo(req: Request, res: Response, next: NextFunction) {
+  try {
+    const userInfo = await userService.getUserInfo(req.params.id);
+    res.json({ user: userInfo });
+  } catch (err) {
+    next(err);
+  }
+}
+
 export const userController = {
   getAllUsers,
   getUserById,
+  getUserInfo,
 };

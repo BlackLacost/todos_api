@@ -2,45 +2,40 @@ import { NextFunction, Request, Response } from 'express';
 import { todoService } from '../services/todo.service';
 
 async function addTodo(req: Request, res: Response, next: NextFunction) {
-  const todo = req.body;
-  todo.userId = String(req.query.user_id) && req.query.user_id;
   try {
-    const addedTodo = await todoService.addTodo(todo);
-    res.json({ todo: addedTodo });
+    res.json(await todoService.addTodo({ userId: req.query.user_id, ...req.body }));
   } catch (err) {
     return next(err);
   }
 }
 
 async function changeTodo(req: Request, res: Response, next: NextFunction) {
-  const { title, completed } = req.body;
-  const { id } = req.params;
-  const userId: string = req.query.user_id && req.query.user_id;
   try {
-    const changedTodo = await todoService.changeTodo(userId, id, { title, completed });
-    res.json({ todo: changedTodo });
+    res.json(
+      await todoService.changeTodo({
+        id: req.params.id,
+        query: { completed: req.body.completed, title: req.body.title },
+        userId: req.query.user_id,
+      }),
+    );
   } catch (err) {
     return next(err);
   }
 }
 
 async function deleteTodo(req: Request, res: Response, next: NextFunction) {
-  const { id } = req.params;
-  const userId: string = req.query.user_id && req.query.user_id;
   try {
-    const deletedTodo = await todoService.deleteTodo(userId, id);
-    res.json({ todo: deletedTodo });
+    res.json(await todoService.deleteTodo({ userId: req.query.user_id, id: req.params.id }));
   } catch (err) {
     return next(err);
   }
 }
 
 async function getAllTodos(req: Request, res: Response, next: NextFunction) {
-  const completed = req.query.completed === undefined ? null : req.query.completed === 'true';
-  const userId: string = req.query.user_id && req.query.user_id;
   try {
-    const userTodos = await todoService.getAllTodos(userId, completed);
-    return res.json({ todos: userTodos });
+    res.json(
+      await todoService.getAllTodos({ completed: req.query.completed, userId: req.query.user_id }),
+    );
   } catch (err) {
     return next(err);
   }

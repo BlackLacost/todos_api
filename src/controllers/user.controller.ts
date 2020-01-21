@@ -4,8 +4,7 @@ import { userService } from '../services/user.service';
 
 async function getAllUsers(req: Request, res: Response, next: NextFunction) {
   try {
-    const users = await userService.getAllUsers();
-    res.json({ users });
+    res.json(await userService.getAllUsers());
   } catch (err) {
     next(err);
   }
@@ -13,8 +12,7 @@ async function getAllUsers(req: Request, res: Response, next: NextFunction) {
 
 async function getUserById(req: Request, res: Response, next: NextFunction) {
   try {
-    const user = await userService.getUserById(req.params.id);
-    res.json({ user });
+    res.json(await userService.getUserById(req.params.id));
   } catch (err) {
     next(err);
   }
@@ -22,8 +20,7 @@ async function getUserById(req: Request, res: Response, next: NextFunction) {
 
 async function getUserInfo(req: Request, res: Response, next: NextFunction) {
   try {
-    const userInfo = await userService.getUserInfo(req.params.id);
-    res.json({ user: userInfo });
+    res.json(await userService.getUserInfo(req.params.id));
   } catch (err) {
     next(err);
   }

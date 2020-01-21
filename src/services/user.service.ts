@@ -3,17 +3,17 @@ import { userFsResource } from '../resources/user.resources/user.fs.resource';
 
 const userResourse = userFsResource;
 
-async function getAllUsers() {
+async function getAllUsers(): Promise<object> {
   const users = await userResourse.getAllUsers();
-  return users;
+  return { users };
 }
 
-async function getUserById(id: string): Promise<IUser> {
+async function getUserById(id: string): Promise<object> {
   const user = await userResourse.getUserById(id);
-  return user;
+  return { user };
 }
 
-async function getUserInfo(id: string) {
+async function getUserInfo(id: string): Promise<object> {
   const user = await userResourse.getUserById(id);
   const userInfo = {
     age: user.age,
@@ -22,7 +22,7 @@ async function getUserInfo(id: string) {
     id: user.id,
     name: `${user.name.first} ${user.name.last}`,
   };
-  return userInfo;
+  return { user: userInfo };
 }
 
 export const userService = {

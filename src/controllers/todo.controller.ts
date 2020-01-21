@@ -24,6 +24,17 @@ async function changeTodo(req: Request, res: Response, next: NextFunction) {
   }
 }
 
+async function deleteTodo(req: Request, res: Response, next: NextFunction) {
+  const { id } = req.params;
+  const userId: string = req.query.user_id && req.query.user_id;
+  try {
+    const deletedTodo = await todoService.deleteTodo(userId, id);
+    res.json({ todo: deletedTodo });
+  } catch (err) {
+    return next(err);
+  }
+}
+
 async function getAllTodos(req: Request, res: Response, next: NextFunction) {
   const completed = req.query.completed === undefined ? null : req.query.completed === 'true';
   const userId: string = req.query.user_id && req.query.user_id;
@@ -38,5 +49,6 @@ async function getAllTodos(req: Request, res: Response, next: NextFunction) {
 export const todoController = {
   addTodo,
   changeTodo,
+  deleteTodo,
   getAllTodos,
 };

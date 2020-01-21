@@ -25,6 +25,11 @@ async function changeTodo(userId: string, id: string, query): Promise<ITodo> {
   throw validator.getErrors();
 }
 
+async function deleteTodo(userId: string, id: string): Promise<ITodo> {
+  const deletedTodo = await todoResource.deleteTodo(userId, id);
+  return deletedTodo;
+}
+
 async function getAllTodos(userId: string, completed: null | boolean): Promise<ITodo[]> {
   const userTodos = await todoResource.getAllTodos(userId);
   if (completed === null) {
@@ -38,5 +43,6 @@ async function getAllTodos(userId: string, completed: null | boolean): Promise<I
 export const todoService = {
   addTodo,
   changeTodo,
+  deleteTodo,
   getAllTodos,
 };

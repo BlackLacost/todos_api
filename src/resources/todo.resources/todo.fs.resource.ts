@@ -29,6 +29,16 @@ async function changeTodo(userId, id, query: object) {
   return todo;
 }
 
+async function deleteTodo(userId, id): Promise<ITodo> {
+  const todos = await getTodosFromData();
+  const todo = todos.find((todoItem) => todoItem.userId === userId && todoItem.id === id);
+  const filteredTodos = todos.filter(
+    (todoItem) => todoItem.userId !== userId || todoItem.id !== id,
+  );
+  await fs.writeFile(todosData, JSON.stringify(filteredTodos));
+  return todo;
+}
+
 async function getAllTodos(userId: string): Promise<ITodo[]> {
   const todos = await getTodosFromData();
   const userTodos = todos.filter((todo) => todo.userId === userId);
@@ -38,5 +48,6 @@ async function getAllTodos(userId: string): Promise<ITodo[]> {
 export const todoFsResource = {
   addTodo,
   changeTodo,
+  deleteTodo,
   getAllTodos,
 };

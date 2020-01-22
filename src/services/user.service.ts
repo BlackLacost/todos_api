@@ -3,16 +3,20 @@ import { userFsResource } from '../resources/user.resources/user.fs.resource';
 
 const userResourse = userFsResource;
 
-// TODO Вернуть только имя (firstname + lastname) и id
+const getIdAndFullnameFromUser = (user: IUser) => ({
+  id: user.id,
+  name: `${user.name.first} ${user.name.last}`,
+});
+
 async function getAllUsers(): Promise<object> {
   const users = await userResourse.getAllUsers();
-  return { users };
+  const mappedUsers = users.map((user) => getIdAndFullnameFromUser(user));
+  return { users: mappedUsers };
 }
 
-// TODO Вернуть только имя (firstname + lastname) и id
 async function getUserById(id: string): Promise<object> {
-  const user = await userResourse.getUserById(id);
-  return { user };
+  const user = (await userResourse.getUserById(id)) as IUser;
+  return { user: getIdAndFullnameFromUser(user) };
 }
 
 async function getUserInfo(id: string): Promise<object> {

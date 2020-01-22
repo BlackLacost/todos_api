@@ -1,33 +1,8 @@
-import { NextFunction, Request, Response } from 'express';
-
 import { userService } from '../services/user.service';
-
-async function getAllUsers(req: Request, res: Response, next: NextFunction) {
-  try {
-    res.json(await userService.getAllUsers());
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function getUserById(req: Request, res: Response, next: NextFunction) {
-  try {
-    res.json(await userService.getUserById(req.params.id));
-  } catch (err) {
-    next(err);
-  }
-}
-
-async function getUserInfo(req: Request, res: Response, next: NextFunction) {
-  try {
-    res.json(await userService.getUserInfo(req.params.id));
-  } catch (err) {
-    next(err);
-  }
-}
+import { makeController } from './utils.controller';
 
 export const userController = {
-  getAllUsers,
-  getUserById,
-  getUserInfo,
+  getAllUsers: makeController(userService.getAllUsers, (req) => req),
+  getUserById: makeController(userService.getUserById, (req) => req.params.id),
+  getUserInfo: makeController(userService.getUserInfo, (req) => req.params.id),
 };

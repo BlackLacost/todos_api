@@ -3,11 +3,13 @@ import { userFsResource } from '../resources/user.resources/user.fs.resource';
 
 const userResourse = userFsResource;
 
+// TODO Вернуть только имя (firstname + lastname) и id
 async function getAllUsers(): Promise<object> {
   const users = await userResourse.getAllUsers();
   return { users };
 }
 
+// TODO Вернуть только имя (firstname + lastname) и id
 async function getUserById(id: string): Promise<object> {
   const user = await userResourse.getUserById(id);
   return { user };
